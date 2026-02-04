@@ -1,5 +1,13 @@
 # Invoice CRM
 
+[![GitHub stars](https://img.shields.io/github/stars/fortunto2/invoice-crm?style=social)](https://github.com/fortunto2/invoice-crm)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
+
+**Free, open-source invoice generator for freelancers and small businesses. File-based, git-friendly, AI-agent compatible. No SaaS, no monthly fees.**
+
+![Invoice Example](examples/invoice-screenshot.png)
+
 A file-based mini CRM for generating professional invoices, letters, and company detail cards using Python, Jinja2, Pydantic, and WeasyPrint.
 
 ## Features
@@ -28,7 +36,7 @@ See the `examples/` directory for sample generated PDFs:
 
 ```bash
 # Clone and setup
-git clone https://github.com/yourname/invoice-crm.git
+git clone https://github.com/fortunto2/invoice-crm.git
 cd invoice-crm
 make install
 
