@@ -278,6 +278,147 @@ powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | ie
 
 See [uv installation docs](https://docs.astral.sh/uv/getting-started/installation/) for more options (pip, pipx, Docker, etc.)
 
+## Setup with AI Agent
+
+You can configure everything using Claude Code, Cursor, or any AI coding assistant.
+
+### Initial Setup
+
+Tell your agent:
+
+```
+Set up invoice-crm for my company:
+- Company: My Company LLC, Delaware
+- Address: 123 Main St, New York, NY 10001
+- Email: billing@mycompany.com
+- Bank: Wise USD, account 123456789, routing 084009519
+
+Add a client:
+- Name: ACME Corp
+- Address: 456 Oak Ave, Los Angeles, CA 90001
+- Email: ap@acme.com
+- Default rate: $150/hour, 40 hours
+```
+
+The agent will create `providers/my-company.yaml` and `clients/acme.yaml`.
+
+### Daily Usage
+
+```
+Invoice ACME for 80 hours at $150
+Invoice ACME for January, 60 hours
+Create invoice for ACME: 40h consulting at €100, 20h code review at €80
+Generate bank details card for my company
+```
+
+Or use Make commands directly:
+
+```bash
+make invoice-acme
+make cards
+make list
+```
+
+---
+
+## FAQ
+
+### General
+
+**What is this?**
+
+A file-based CLI tool for generating professional PDF invoices. All data (clients, providers, bank details) lives in YAML files on your machine. No database, no SaaS, no monthly fees.
+
+**Who is this for?**
+
+Freelancers, consultants, and small businesses who want:
+- Full control over their financial data
+- Git-friendly invoicing (version control your configs)
+- Integration with AI coding agents (optional)
+- No subscription fees
+
+### AI & Privacy
+
+**Do I need Claude or any AI to use this?**
+
+No. It's a pure Python CLI script. Run `make invoice-acme` or `uv run python crm.py invoice acme` - no AI required.
+
+**Then why mention AI at all?**
+
+AI agents make certain tasks easier:
+1. **Initial setup** - configuring YAML files with client details, bank accounts, company info
+2. **Complex invoices** - multiple line items, custom descriptions
+3. **Template customization** - HTML/CSS branding work
+4. **Natural language** - for those who prefer talking over typing CLI commands
+
+**Does the AI see my bank details?**
+
+Not necessarily. The architecture separates concerns:
+- Bank details live in config files (`providers/*.yaml`)
+- When generating an invoice, you only pass: client name, amount, hours
+- The script pulls credentials from configs deterministically
+- The agent never needs to see your actual IBAN/SWIFT
+
+This protects against hallucinations - the LLM can't invent wrong bank details because it never handles them.
+
+**Can I use a local model instead of Claude?**
+
+Yes. Use Ollama, LM Studio, or any local LLM. The tool doesn't care what triggers it - it's just a CLI script.
+
+**Is my data sent anywhere?**
+
+Only if you choose to:
+- Use a cloud LLM (Claude, GPT) - then your prompts go to their API
+- Push to public GitHub - don't do this with real data
+
+For maximum privacy:
+- Use as CLI only (no AI)
+- Or use a local model
+- Keep configs in a private repo or gitignored
+
+### Security Best Practices
+
+**What files contain sensitive data?**
+
+```
+providers/     # Your company details, bank accounts
+clients/       # Client details (less sensitive, but still private)
+archive/       # Generated invoices with amounts
+.certs/        # PDF signing certificates (already gitignored)
+```
+
+**How should I set up my repo?**
+
+**Option 1:** Private repository - keep everything in a private GitHub/GitLab repo
+
+**Option 2:** Gitignore sensitive folders:
+```
+providers/
+clients/
+archive/
+```
+
+**Option 3:** Encrypt sensitive files:
+```bash
+uv run python crm.py encrypt providers/
+uv run python crm.py encrypt archive/
+```
+
+**Can the AI hallucinate wrong bank details?**
+
+No. Bank details come from deterministic config files, not LLM generation. The agent's job is to trigger the script with the right parameters - the script reads credentials from your trusted YAML files.
+
+### Comparison
+
+| Feature | Typical SaaS | Invoice CRM |
+|---------|--------------|-------------|
+| Monthly cost | $10-60/month | Free |
+| Data location | Their servers | Your machine |
+| Offline work | No | Yes |
+| Version control | No | Yes (git) |
+| AI integration | Limited | Full (any agent) |
+| Customization | Template picker | Full HTML/CSS/Jinja2 |
+
 ## License
 
 MIT License - see [LICENSE](LICENSE)
