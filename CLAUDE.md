@@ -30,7 +30,9 @@ make letter-example   # Example letter
 make cert-info        # Show certificates
 make encrypt-setup    # Generate age key
 make encrypt-archive  # Encrypt archive/
+make encrypt-cards    # Encrypt cards/
 make decrypt-archive  # Decrypt archive/
+make decrypt-cards    # Decrypt cards/
 
 # Info
 make list             # List providers and clients

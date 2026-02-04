@@ -48,8 +48,14 @@ encrypt-setup:
 encrypt-archive:
 	@uv run python crm.py encrypt archive/
 
+encrypt-cards:
+	@uv run python crm.py encrypt cards/
+
 decrypt-archive:
 	@uv run python crm.py decrypt archive/
+
+decrypt-cards:
+	@uv run python crm.py decrypt cards/
 
 # Clean generated files
 clean:
