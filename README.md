@@ -250,10 +250,25 @@ Document numbers are auto-incremented in `.counters.json`.
 ## Requirements
 
 - Python 3.11+
-- [uv](https://github.com/astral-sh/uv) (or pip)
+- [uv](https://docs.astral.sh/uv/) — fast Python package manager
 - macOS: `brew install pango`
 - Linux: `apt install libpango-1.0-0 libpangocairo-1.0-0`
 - Optional: `brew install age` (encryption)
+
+### Installing uv
+
+```bash
+# macOS / Linux
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# macOS (Homebrew)
+brew install uv
+
+# Windows
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+```
+
+See [uv installation docs](https://docs.astral.sh/uv/getting-started/installation/) for more options (pip, pipx, Docker, etc.)
 
 ## License
 
