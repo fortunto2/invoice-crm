@@ -35,19 +35,12 @@ See the `examples/` directory for sample generated PDFs:
 ## Quick Start
 
 ```bash
-# Clone and setup
 git clone https://github.com/fortunto2/invoice-crm.git
 cd invoice-crm
-make install
-
-# Validate example data
-make validate
-
-# Generate an invoice
-uv run python crm.py invoice acme-corp
-
-# Generate a company card
-uv run python crm.py card example-llc
+make install           # install dependencies
+make validate          # check configs
+make invoice-acme      # generate invoice
+make cards             # generate company cards
 ```
 
 ## Project Structure
@@ -75,62 +68,45 @@ invoice-crm/
 └── cards/              # Generated company cards
 ```
 
-## Commands
-
-### Invoice
+## Make Commands
 
 ```bash
-uv run python crm.py invoice CLIENT [options]
+# Generate
+make invoice-acme      # invoice for ACME Corp
+make invoice-startup   # invoice for Startup Inc
+make cards             # all company cards
+make letter-example    # example letter
 
-Options:
-  -n, --number        Invoice number (auto-increment if omitted)
-  -d, --date          Issue date (DD.MM.YYYY)
-  -p, --provider      Override default provider
-  -b, --bank          Bank name (e.g., payoneer-usd, wise-eur)
-  --currency          Currency (USD, EUR, GBP, etc.)
-  --qty               Quantity/hours (default from client)
-  --rate              Rate per unit (default from client)
-  --description       Service description
+# Setup & Info
+make install           # install dependencies
+make validate          # validate YAML configs
+make list              # list providers and clients
+make history-acme-corp # client history
+
+# PDF Signing
+make cert-all          # create certificates for all providers
+make cert-info         # show certificate info
+
+# Encryption (optional)
+make encrypt-setup     # generate age key
+make encrypt-archive   # encrypt archive/
+make encrypt-cards     # encrypt cards/
+make decrypt-archive   # decrypt archive/
+make decrypt-cards     # decrypt cards/
+
+make clean             # remove generated PDFs
+make help              # show all commands
 ```
 
-### Letter
+### CLI (for custom options)
 
 ```bash
-uv run python crm.py letter CLIENT [options]
-
-Options:
-  -n, --number        Letter number (auto-increment)
-  -p, --provider      Provider name (required)
-  -s, --subject       Subject line
-  -b, --body          Letter body (HTML supported)
-  -o, --output        Output filename
-  --show-bank         Include bank details
-  --bank              Bank for --show-bank
-  --tx-date/id/amount Transaction details (for refunds)
+uv run python crm.py invoice CLIENT [--qty 80] [--rate 100] [--currency EUR]
+uv run python crm.py letter CLIENT -p PROVIDER -s "Subject" -b "Body"
+uv run python crm.py card PROVIDER [-b bank1,bank2]
 ```
 
-### Company Card
-
-```bash
-uv run python crm.py card PROVIDER [options]
-
-Options:
-  -b, --banks         Comma-separated bank names
-  -o, --output        Output filename
-
-# Examples:
-uv run python crm.py card example-llc
-uv run python crm.py card example-llc -b wise-usd,wise-eur -o llc-wise
-```
-
-### Other Commands
-
-```bash
-uv run python crm.py list providers|clients
-uv run python crm.py show provider|client NAME
-uv run python crm.py history CLIENT
-uv run python crm.py validate
-```
+Run `uv run python crm.py --help` for all options.
 
 ## Configuration
 
@@ -221,11 +197,8 @@ Each provider can have multiple bank accounts. QR codes are auto-generated based
 All PDFs can be digitally signed with self-signed certificates.
 
 ```bash
-# Create certificate for a provider (one-time)
-uv run python crm.py cert-setup -p example-llc
-
-# View certificates
-uv run python crm.py cert-info
+make cert-all    # create certificates for all providers
+make cert-info   # view certificates
 ```
 
 Recipients see signature info in Adobe Reader's Signatures panel.
@@ -239,12 +212,10 @@ Encrypt sensitive PDFs using [age](https://age-encryption.org).
 brew install age  # macOS
 apt install age   # Linux
 
-# Generate encryption key
-uv run python crm.py encrypt --setup
-
-# Encrypt/decrypt
-uv run python crm.py encrypt archive/
-uv run python crm.py decrypt archive/
+# Setup and use
+make encrypt-setup     # generate encryption key
+make encrypt-archive   # encrypt archive/
+make decrypt-archive   # decrypt archive/
 ```
 
 ## File Naming
@@ -341,7 +312,7 @@ Freelancers, consultants, and small businesses who want:
 
 **Do I need Claude or any AI to use this?**
 
-No. It's a pure Python CLI script. Run `make invoice-acme` or `uv run python crm.py invoice acme` - no AI required.
+No. It's a pure Python CLI. Run `make invoice-acme` - no AI required.
 
 **Then why mention AI at all?**
 
@@ -400,8 +371,8 @@ archive/
 
 **Option 3:** Encrypt sensitive files:
 ```bash
-uv run python crm.py encrypt providers/
-uv run python crm.py encrypt archive/
+make encrypt-archive
+make encrypt-cards
 ```
 
 **Can the AI hallucinate wrong bank details?**
