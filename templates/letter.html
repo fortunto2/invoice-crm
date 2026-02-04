@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>{{ base_css }}</style>
+</head>
+<body>
+
+{% if provider.logo %}<img src="{{ provider.logo }}" class="logo">{% endif %}
+
+<div class="date">Date: {{ doc.date }}</div>
+
+<div class="address-block">
+  <strong>To:</strong>
+  {{ client.name }}<br>
+  {{ client.address.street }}<br>
+  {% if client.address.city %}{{ client.address.city }}{% endif %}
+  {% if client.address.zip %} {{ client.address.zip }}{% endif %}
+  {% if client.address.region %}, {{ client.address.region }}{% endif %}
+  {% if client.address.country %}, {{ client.address.country }}{% endif %}<br>
+  {% if client.registration and client.registration.reg_number %}Reg. Number: {{ client.registration.reg_number }}{% endif %}
+</div>
+
+<div class="address-block">
+  <strong>From:</strong>
+  {{ provider.name }}<br>
+  {{ provider.address.street }}, {{ provider.address.city }}
+  {%- if provider.address.state %}, {{ provider.address.state }}{% endif %} {{ provider.address.zip }}, {{ provider.address.country }}<br>
+  {% if provider.registration and provider.registration.file_number %}Delaware File Number: {{ provider.registration.file_number }}<br>{% endif %}
+  {% if client.platform and client.platform.client_no %}Platform Client No: {{ client.platform.client_no }}{% endif %}
+</div>
+
+<div class="subject">Subject: {{ doc.subject }}</div>
+
+{{ doc.body | safe }}
+
+{% if doc.transaction %}
+<p><strong>Transaction details:</strong></p>
+<div class="details">
+  {% if doc.transaction.date %}<div>Transaction date: {{ doc.transaction.date }}</div>{% endif %}
+  {% if doc.transaction.id %}<div>Transaction ID: {{ doc.transaction.id }}</div>{% endif %}
+  {% if doc.transaction.transfer_id %}<div>Transfer ID: {{ doc.transaction.transfer_id }}</div>{% endif %}
+  {% if doc.transaction.amount %}<div>Amount: {{ doc.transaction.amount }} {{ doc.transaction.currency | default('USD') }}</div>{% endif %}
+</div>
+{% endif %}
+
+{% if doc.show_bank %}
+<p><strong>Please issue the refund to the following bank account:</strong></p>
+<div class="details">
+  <div>Account holder: {{ bank.holder }}</div>
+  {% if bank.iban %}<div>IBAN: {{ bank.iban }}</div>{% endif %}
+  {% if bank.account %}<div>Account number: {{ bank.account }}</div>{% endif %}
+  {% if bank.routing %}<div>Routing number (ABA): {{ bank.routing }}</div>{% endif %}
+  {% if bank.swift %}<div>SWIFT/BIC: {{ bank.swift }}</div>{% endif %}
+  <div>Bank name: {{ bank.bank_name }}</div>
+  {% if bank.bank_address %}<div>Bank address: {{ bank.bank_address }}</div>{% endif %}
+</div>
+{% endif %}
+
+<div class="signature">
+  <p>Sincerely,</p>
+  {% if provider.signer and provider.signer.signature %}
+  <img src="{{ provider.signer.signature }}" class="signature-img" alt="Signature">
+  {% endif %}
+  <div class="signature-name">
+    {{ provider.signer.name | default(provider.name) }}<br>
+    {% if provider.signer and provider.signer.title %}{{ provider.signer.title }}<br>{% endif %}
+    {% if provider.type != 'individual' and provider.signer.name != provider.name %}{{ provider.name }}{% endif %}
+  </div>
+</div>
+
+</body>
+</html>

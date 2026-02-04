@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+@page {
+  size: A4;
+  margin: 1.5cm 1.5cm 1.5cm 1.5cm;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 10pt;
+  color: #000;
+  line-height: 1.3;
+}
+
+/* Header */
+.header {
+  text-align: center;
+  margin-bottom: 12px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #000;
+}
+
+.name {
+  font-size: 16pt;
+  font-weight: bold;
+  letter-spacing: 1px;
+  margin-bottom: 2px;
+}
+
+.title {
+  font-size: 10pt;
+  font-style: italic;
+  margin-bottom: 4px;
+}
+
+.contact {
+  font-size: 9pt;
+}
+
+.contact a {
+  color: #000;
+  text-decoration: none;
+}
+
+/* Sections */
+.section {
+  margin-bottom: 10px;
+}
+
+.section-title {
+  font-size: 10pt;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-bottom: 1px solid #000;
+  padding-bottom: 1px;
+  margin-bottom: 5px;
+}
+
+/* Summary */
+.summary {
+  text-align: justify;
+  font-size: 9pt;
+}
+
+/* Skills */
+.skills-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px 15px;
+}
+
+.skill-item {
+  font-size: 9pt;
+}
+
+.skill-category {
+  font-weight: bold;
+}
+
+/* Experience */
+.job {
+  margin-bottom: 8px;
+  page-break-inside: avoid;
+}
+
+.job-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.job-title {
+  font-weight: bold;
+  font-size: 10pt;
+}
+
+.job-period {
+  font-size: 9pt;
+  font-style: italic;
+}
+
+.job-company {
+  font-style: italic;
+  font-size: 9pt;
+  margin-bottom: 2px;
+}
+
+.job-company a {
+  color: #000;
+  text-decoration: none;
+}
+
+.job-description {
+  font-size: 9pt;
+  text-align: justify;
+}
+
+/* Education */
+.education-item {
+  font-size: 9pt;
+}
+
+.degree {
+  font-weight: bold;
+}
+
+.institution {
+  font-style: italic;
+}
+
+/* Interests */
+.interests {
+  font-size: 9pt;
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="name">{{ person.name | upper }}</div>
+  <div class="title">{{ person.title }}</div>
+  <div class="contact">
+    {{ person.contact.location }}
+    &nbsp;|&nbsp;
+    {{ person.contact.phone }}
+    &nbsp;|&nbsp;
+    {{ person.contact.email }}
+    {% if person.contact.linkedin %}
+    <br><a href="{{ person.contact.linkedin }}">{{ person.contact.linkedin | replace('https://', '') }}</a>
+    {% endif %}
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Professional Summary</div>
+  <div class="summary">{{ person.summary | trim }}</div>
+</div>
+
+<div class="section">
+  <div class="section-title">Core Competencies</div>
+  <div class="skills-grid">
+    {% for skill in person.skills %}
+    <div class="skill-item">
+      <span class="skill-category">{{ skill.category }}:</span> {{ skill.items }}
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Professional Experience</div>
+  {% for job in person.experience %}
+  <div class="job">
+    <div class="job-header">
+      <span class="job-title">{{ job.title }}</span>
+      <span class="job-period">{{ job.period }}</span>
+    </div>
+    <div class="job-company">
+      {% if job.url %}<a href="{{ job.url }}">{{ job.company }}</a>{% else %}{{ job.company }}{% endif %}
+    </div>
+    <div class="job-description">{{ job.description | trim }}</div>
+  </div>
+  {% endfor %}
+</div>
+
+<div class="section">
+  <div class="section-title">Education</div>
+  {% for edu in person.education %}
+  <div class="education-item">
+    <span class="degree">{{ edu.degree }}</span>,
+    <span class="institution">{{ edu.institution }}</span>,
+    {{ edu.year }}
+  </div>
+  {% endfor %}
+</div>
+
+{% if person.interests %}
+<div class="section">
+  <div class="section-title">Interests</div>
+  <div class="interests">{{ person.interests | join(' • ') }}</div>
+</div>
+{% endif %}
+
+</body>
+</html>

@@ -1,0 +1,105 @@
+/* Common styles for all documents */
+@page {
+  size: A4;
+  margin: 1.5cm 1.5cm 1.5cm 1.5cm;
+
+  @bottom-center {
+    content: "Page " counter(page) " of " counter(pages);
+    font-size: 9pt;
+    color: #888;
+  }
+}
+
+/* First page - no header repeat */
+@page :first {
+  @top-right { content: none; }
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  font-size: 10pt;
+  color: #1a1a1a;
+  line-height: 1.4;
+}
+
+/* Header */
+h1 { font-size: 32px; font-weight: 800; margin-bottom: 30px; letter-spacing: -0.5px; }
+.date { margin-bottom: 20px; }
+.label { color: #666; font-size: 12px; }
+.company-name { font-weight: 700; font-size: 14px; }
+
+/* Two-column header */
+.header { display: flex; justify-content: space-between; margin-bottom: 25px; }
+.header-left { width: 50%; }
+.header-right { width: 50%; text-align: right; }
+.doc-info { margin-bottom: 6px; }
+
+/* Bill To block */
+.bill-to { margin-bottom: 20px; }
+
+/* Address blocks (for letters) */
+.address-block { margin-bottom: 18px; }
+.address-block strong { display: block; margin-bottom: 4px; }
+
+/* Copyable values (bold for easy selection) */
+.copyable { font-weight: 700; letter-spacing: 0.3px; }
+
+/* Subject line */
+.subject { font-weight: 700; margin: 20px 0 15px; }
+
+/* Tables */
+table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+thead { border-top: 2px solid #1a1a1a; border-bottom: 1px solid #ddd; }
+th { text-align: left; padding: 8px 6px; font-size: 10px; font-weight: 600; text-transform: uppercase; color: #555; }
+td { padding: 8px 6px; vertical-align: top; border-bottom: 1px solid #eee; }
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+
+/* Totals */
+.totals { margin-top: 10px; border-top: 2px solid #1a1a1a; }
+.totals-row { display: flex; justify-content: flex-end; padding: 6px 8px; }
+.totals-label { width: 200px; text-align: left; padding-left: 20px; }
+.totals-value { width: 140px; text-align: right; }
+.totals-row.total { font-weight: 700; font-size: 15px; border-top: 1px solid #ddd; padding-top: 10px; margin-top: 4px; }
+
+/* Details list */
+p { margin-bottom: 12px; }
+.details { margin: 15px 0; padding-left: 20px; }
+.details div { margin-bottom: 4px; }
+
+/* Footer */
+.footer { margin-top: 25px; border-top: 1px solid #ddd; padding-top: 15px; display: flex; justify-content: space-between; font-size: 11px; gap: 15px; }
+.footer-left { flex: 1; }
+.footer-center { flex: 1; text-align: right; }
+.footer-qr { flex: 0 0 auto; text-align: center; }
+.footer-label { font-weight: 700; margin-bottom: 4px; }
+
+/* QR Code */
+.qr-code { width: 80px; height: 80px; }
+.qr-label { font-size: 8px; color: #888; margin-top: 2px; }
+
+/* Payment terms */
+.payment-terms { margin-top: 30px; }
+.payment-terms h3 { font-size: 12px; font-weight: 700; margin-bottom: 4px; }
+
+/* Signature */
+.signature { margin-top: 40px; }
+.signature-img { height: 80px; margin: 10px 0; }
+.signature-name { font-weight: 600; }
+
+/* Invoice header */
+.invoice-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 2px solid #1a1a1a; }
+.invoice-header-left { display: flex; align-items: center; gap: 15px; }
+.invoice-header-right { text-align: right; }
+.invoice-header-right h1 { font-size: 42px; font-weight: 800; margin: 0; letter-spacing: -1px; }
+.invoice-meta { color: #666; margin-top: 8px; font-size: 13px; }
+.provider-name { font-weight: 700; font-size: 16px; white-space: nowrap; }
+.provider-website { color: #666; font-size: 12px; }
+
+/* Logo */
+.logo { height: 70px; }
+
+/* Disclaimer */
+.disclaimer { margin-top: 30px; font-size: 9px; color: #999; text-align: center; }

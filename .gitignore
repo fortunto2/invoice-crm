@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+*.egg-info/
+
+# uv
+.python-version
+uv.lock
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# Generated PDFs (keep directories for structure)
+archive/*/*.pdf
+cards/*.pdf
+cv/*.pdf
+
+# Encryption key
+.age-key.txt
+
+# PDF signing certificates
+.certs/
+
+# Document counters (user-specific)
+.counters.json

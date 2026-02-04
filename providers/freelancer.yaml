@@ -1,0 +1,70 @@
+# Freelancer / Individual provider example
+name: Jane Developer
+type: individual
+
+address:
+  street: 456 Freelance Street, Apt 7B
+  city: San Francisco
+  state: CA
+  zip: "94102"
+  country: USA
+
+contact:
+  email: jane@janedev.com
+  phone: "+1 555 987 6543"
+  website: https://janedev.com
+
+tax:
+  tin: "123-45-6789"
+  vat_note: "Not registered for VAT"
+
+banks:
+  # Payoneer USD
+  payoneer-usd:
+    currency: USD
+    country: USA
+    default: true
+    holder: Jane Developer
+    account: "70581234567890123"
+    routing: "031100209"
+    swift: CITIUS33
+    bank_name: Citibank N.A. (Payoneer)
+    bank_address: 388 Greenwich Street, New York, NY 10013
+
+  # Payoneer EUR
+  payoneer-eur:
+    currency: EUR
+    country: Luxembourg
+    default: true
+    holder: Jane Developer
+    iban: LU114080000012345678
+    swift: BCIRLULL
+    bank_name: Banking Circle S.A. (Payoneer)
+    bank_address: 2, Boulevard de la Foire L-1528
+
+  # Local bank
+  chase-usd:
+    currency: USD
+    country: USA
+    holder: Jane Developer
+    account: "123456789"
+    routing: "021000021"
+    swift: CHASUS33
+    bank_name: JPMorgan Chase Bank
+    bank_address: New York, NY
+
+  # Crypto
+  binance-usdt:
+    currency: USDT
+    default: true
+    holder: Jane Developer
+    account: "123456789"  # UID
+    iban: TExampleTRC20AddressHere1234567890  # TRC20 address
+    bank_name: Binance
+    bank_address: TRON (TRC20)
+
+signer:
+  name: Jane Developer
+  # signature: assets/jane-signature.png
+
+disclaimer: "Independent contractor services. Thank you for your business!"

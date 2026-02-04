@@ -1,0 +1,67 @@
+# Example LLC - US Corporation
+name: Example LLC
+type: corporation
+
+address:
+  street: 123 Business Avenue
+  suite: Suite 500
+  city: New York
+  state: NY
+  zip: "10001"
+  country: USA
+
+contact:
+  email: billing@example-llc.com
+  phone: "+1 555 123 4567"
+  website: https://example-llc.com
+
+registration:
+  state: Delaware
+  file_number: "1234567"
+  ein: "12-3456789"
+
+tax:
+  tin: "12-3456789"
+
+banks:
+  # Wise (primary USD)
+  wise-usd:
+    currency: USD
+    country: USA
+    default: true
+    holder: Example LLC
+    account: "8310123456"
+    routing: "084009519"
+    swift: TRWIUS33
+    bank_name: Wise (TransferWise)
+    bank_address: 30 W. 26th Street, New York, NY 10010
+
+  # Wise EUR
+  wise-eur:
+    currency: EUR
+    country: Belgium
+    default: true
+    holder: Example LLC
+    iban: BE12345678901234
+    swift: TRWIBEB1XXX
+    bank_name: Wise Europe SA
+    bank_address: Avenue Louise 54, 1050 Brussels
+
+  # Mercury (US business banking)
+  mercury-usd:
+    currency: USD
+    country: USA
+    holder: Example LLC
+    account: "123456789012"
+    routing: "091311229"
+    swift: MCRYUS44
+    bank_name: Mercury
+    bank_address: 550 Kearny St, San Francisco, CA 94108
+
+signer:
+  name: John Smith
+  title: CEO
+  # signature: assets/signature.png  # Uncomment and add your signature image
+
+# logo: assets/logo.png  # Uncomment and add your logo
+disclaimer: "Thank you for your business! Payment terms: NET 30 days."

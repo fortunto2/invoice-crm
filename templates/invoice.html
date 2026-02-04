@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>{{ base_css }}</style>
+</head>
+<body>
+
+<div class="invoice-header">
+  <div class="invoice-header-left">
+    {% if provider.logo %}<img src="{{ provider.logo }}" class="logo">{% endif %}
+    <div class="provider-info">
+      <div class="provider-name">{{ provider.name }}</div>
+      {% if provider.contact.website %}<div class="provider-website">{{ provider.contact.website }}</div>{% endif %}
+    </div>
+  </div>
+  <div class="invoice-header-right">
+    <h1>INVOICE</h1>
+    <div class="invoice-meta">
+      <div>#{{ invoice.number }}</div>
+      <div>{{ invoice.date }}</div>
+    </div>
+  </div>
+</div>
+
+<div class="bill-to">
+  <div class="label">Bill To</div>
+  <div class="company-name">{{ client.name }}</div>
+  <div>{{ client.address.street }}</div>
+  {% if client.address.suite %}<div>{{ client.address.suite }}</div>{% endif %}
+  <div>{{ client.address.city }} {{ client.address.zip }}</div>
+  <div>{{ client.address.country }}</div>
+  <div>{{ client.contact.email }}</div>
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="width:30px" class="text-center">#</th>
+      <th>PRODUCT</th>
+      <th class="text-center">QTY</th>
+      <th class="text-center">UNITS</th>
+      <th class="text-right">PRICE</th>
+      <th class="text-center">DISC.</th>
+      <th class="text-right">AMOUNT</th>
+      <th class="text-center">VAT</th>
+      <th class="text-right">VAT AMT</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in invoice.line_items %}
+    <tr>
+      <td class="text-center">{{ loop.index }}</td>
+      <td>{{ item.description }}</td>
+      <td class="text-center">{{ item.qty }}</td>
+      <td class="text-center">{{ item.unit | default('item') }}</td>
+      <td class="text-right">{{ invoice.currency }} {{ item.price }}</td>
+      <td class="text-center">{{ item.discount if item.discount else '' }}</td>
+      <td class="text-right">{{ invoice.currency }} {{ item.amount }}</td>
+      <td class="text-center">{{ item.vat_rate if item.vat_rate else 0 }} %</td>
+      <td class="text-right">{{ item.vat_amount if item.vat_amount else '' }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<div class="totals">
+  <div class="totals-row">
+    <div class="totals-label">Subtotal</div>
+    <div class="totals-value">{{ invoice.subtotal }} {{ invoice.currency }}</div>
+  </div>
+  <div class="totals-row">
+    <div class="totals-label">Total VAT ({{ invoice.vat_rate | default(0) }}%)</div>
+    <div class="totals-value">{{ invoice.vat_total | default('0,00') }} {{ invoice.currency }}</div>
+  </div>
+  <div class="totals-row total">
+    <div class="totals-label">TOTAL ({{ invoice.currency }})</div>
+    <div class="totals-value">{{ invoice.total }} {{ invoice.currency }}</div>
+  </div>
+</div>
+
+<div class="payment-terms">
+  <h3>Payment terms</h3>
+  <div>{{ invoice.payment_terms | default('NET 7 days') }}</div>
+</div>
+
+<div class="footer">
+  <div class="footer-left">
+    <div class="footer-label">Provider</div>
+    <div><strong>{{ provider.name }}</strong></div>
+    <div>{{ provider.address.street }}{% if provider.address.suite %}, {{ provider.address.suite }}{% endif %}</div>
+    <div>{{ provider.address.city }}{% if provider.address.state %}, {{ provider.address.state }}{% endif %} {{ provider.address.zip }}</div>
+    <div>{{ provider.address.country }}</div>
+    <div style="margin-top:8px">{{ provider.contact.email }}</div>
+    {% if provider.contact.phone %}<div>{{ provider.contact.phone }}</div>{% endif %}
+    {% if provider.tax %}
+    <div style="margin-top:8px">TIN <span class="copyable">{{ provider.tax.tin }}</span></div>
+    {% if provider.tax.vat_id %}<div>VAT ID: <span class="copyable">{{ provider.tax.vat_id }}</span></div>{% endif %}
+    {% if provider.tax.vat_note %}<div style="font-size:9px;color:#666">{{ provider.tax.vat_note }}</div>{% endif %}
+    {% endif %}
+    {% if provider.registration %}
+    <div style="margin-top:8px">
+      {% if provider.registration.file_number %}Delaware #<span class="copyable">{{ provider.registration.file_number }}</span>{% endif %}
+      {% if provider.registration.tax_number %} Tax #<span class="copyable">{{ provider.registration.tax_number }}</span>{% endif %}
+    </div>
+    {% endif %}
+  </div>
+  <div class="footer-center">
+    <div class="footer-label">Payment details ({{ bank.currency }})</div>
+    {% if bank.iban %}<div>IBAN: <span class="copyable">{{ bank.iban }}</span></div>{% endif %}
+    {% if bank.account %}<div>Account: <span class="copyable">{{ bank.account }}</span></div>{% endif %}
+    {% if bank.routing %}<div>Routing: <span class="copyable">{{ bank.routing }}</span></div>{% endif %}
+    {% if bank.swift %}<div>SWIFT: <span class="copyable">{{ bank.swift }}</span></div>{% endif %}
+    <div>Bank: {{ bank.bank_name }}</div>
+    {% if bank.bank_address %}<div style="font-size:9px;color:#666">{{ bank.bank_address }}</div>{% endif %}
+  </div>
+  {% if qr_code %}
+  <div class="footer-qr">
+    <img src="{{ qr_code }}" class="qr-code" alt="Payment QR">
+    <div class="qr-label">Scan to pay</div>
+  </div>
+  {% endif %}
+</div>
+
+{% if provider.disclaimer %}
+<div class="disclaimer">{{ provider.disclaimer }}</div>
+{% endif %}
+
+</body>
+</html>

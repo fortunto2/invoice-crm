@@ -1,0 +1,24 @@
+[project]
+name = "invoice-crm"
+version = "1.0.0"
+description = "File-based mini CRM for invoices and documents"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.11"
+dependencies = [
+    "pyyaml>=6.0",
+    "jinja2>=3.1",
+    "pydantic[email]>=2.0",
+    "weasyprint>=62.0",
+    "segno>=1.6",  # QR code generation
+    "pyhanko>=0.25",  # PDF digital signatures
+    "cryptography>=42.0",  # Certificate generation
+]
+
+[project.scripts]
+crm = "crm:main"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+]

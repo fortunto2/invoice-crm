@@ -1,0 +1,21 @@
+# Startup Inc - Example client (EU)
+name: Startup Inc.
+type: corporation
+
+address:
+  street: Friedrichstraße 123
+  city: Berlin
+  zip: "10117"
+  country: Germany
+
+contact:
+  name: Hans Mueller
+  email: finance@startup-inc.de
+
+# Default invoice settings
+defaults:
+  provider: freelancer
+  currency: EUR
+  rate: 100.00
+  hours: 80
+  payment_terms: NET 14 days

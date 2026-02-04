@@ -1,0 +1,27 @@
+# ACME Corporation - Example client
+name: ACME Corporation
+type: corporation
+
+address:
+  street: 789 Corporate Boulevard
+  suite: Floor 15
+  city: Los Angeles
+  state: CA
+  zip: "90001"
+  country: USA
+
+contact:
+  name: Bob Johnson
+  email: accounts@acme-corp.com
+  phone: "+1 555 555 1234"
+
+registration:
+  ein: "98-7654321"
+
+# Default invoice settings
+defaults:
+  provider: example-llc
+  currency: USD
+  rate: 150.00
+  hours: 40
+  payment_terms: NET 30 days
