@@ -5,11 +5,38 @@ File-based mini CRM using Python + Jinja2 + Pydantic + WeasyPrint for generating
 ## Quick Start
 
 ```bash
-make install    # Install dependencies
-make validate   # Validate YAML files
+make install        # Install dependencies
+make validate       # Validate YAML files
+make list           # Show providers and clients
+make invoice-acme   # Generate invoice for ACME Corp
+make cards          # Generate all company cards
+```
 
-# Or directly
-uv run python crm.py invoice acme-corp
+## Make Commands
+
+```bash
+# Setup
+make install          # Install dependencies (uv sync + pango)
+make validate         # Validate all YAML files
+make cert-all         # Create PDF signing certificates
+
+# Generate
+make invoice-acme     # Invoice for ACME Corp
+make invoice-startup  # Invoice for Startup Inc
+make cards            # All company cards
+make letter-example   # Example letter
+
+# Security
+make cert-info        # Show certificates
+make encrypt-setup    # Generate age key
+make encrypt-archive  # Encrypt archive/
+make decrypt-archive  # Decrypt archive/
+
+# Info
+make list             # List providers and clients
+make history-CLIENT   # Show client history (e.g., make history-acme-corp)
+make clean            # Remove generated PDFs
+make help             # Show all commands
 ```
 
 ## Structure
@@ -49,7 +76,9 @@ invoice-crm/
 | `acme-corp` | ACME Corporation | example-llc |
 | `startup-inc` | Startup Inc. | freelancer |
 
-## Commands
+## CLI (for custom options)
+
+Use CLI when you need custom parameters beyond what Make provides.
 
 ### Invoice
 ```bash
