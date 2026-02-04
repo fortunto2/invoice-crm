@@ -16,6 +16,14 @@ A file-based mini CRM for generating professional invoices, letters, and company
   - USD: SWIFT text format
   - Crypto: USDT/BTC addresses
 
+## Examples
+
+See the `examples/` directory for sample generated PDFs:
+- `invoice-acme-corp.pdf` - Invoice for US client
+- `invoice-startup-inc.pdf` - Invoice for EU client (EUR)
+- `example-llc-details.pdf` - Company card with bank details
+- `freelancer-details.pdf` - Individual freelancer card
+
 ## Quick Start
 
 ```bash
